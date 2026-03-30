@@ -4,7 +4,7 @@
 
 int main() 
 {
-	InitDisplay();	
+	InitDisplay();
 	Start();
 	
 	while(!WindowShouldClose()) 
