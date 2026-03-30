@@ -23,5 +23,18 @@ struct AstroCam
 	float zoom = 1.0f;
 };
 
-extern std::vector<Planet> planets;
+enum 
+{
+	Sun,
+	Mercury,
+	Venus,
+	Earth,
+	Mars,
+	Jupiter,
+	Saturn,
+	Uranus,
+	Neptune,
+};
+
+extern Planet planets[9];
 extern AstroCam camera;

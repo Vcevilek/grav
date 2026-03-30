@@ -4,7 +4,7 @@
 #include "data.h"
 #include "simulation.h"
 
-std::vector<Planet> planets;
+Planet planets[9];
 bool followEarth = false;
 
 void Start() 
@@ -15,22 +15,71 @@ void Start()
 	sun.radius = 25.0f;
 	sun.color = YELLOW;
 	
+	Planet mercury;
+	mercury.pos = Vector2(-0.39f * astroUnit, 0.0f);
+	mercury.mass = 3.285e23f;
+	mercury.vel = Vector2(0.0f, 47900.0f);
+	mercury.radius = 3.0f;
+	mercury.color = GRAY;
+	
+	Planet venus;
+	venus.pos = Vector2(-0.72f * astroUnit, 0.0f);
+	venus.mass = 4.867e24f;
+	venus.vel = Vector2(0.0f, 35000.0f);
+	venus.radius = 5.0f;
+	venus.color = ORANGE;
+	
 	Planet earth;
-	earth.pos = Vector2(astroUnit, 0.0f);
+	earth.pos = Vector2(-astroUnit, 0.0f);
 	earth.mass = 5.972e24f;
 	earth.vel  = Vector2(0.0f, 29783.0f);
-	earth.color = GREEN;
+	earth.radius = 6.0f;
+	earth.color = BLUE;
 	
-	Planet moon;
-	moon.pos = Vector2(1.00257 * astroUnit, 0.0f);
-	moon.mass = 7.342e22f;
-	moon.vel = Vector2(0.0f, 29783.0f + 1022.0f);
-	moon.radius = 4.0f;
-	moon.color = GRAY;
+	Planet mars;
+	mars.pos = Vector2(-1.524f * astroUnit, 0.0f);
+	mars.mass = 6.39e23f;
+	mars.vel = Vector2(0.0f, 24077.0f);
+	mars.radius = 4.0f;
+	mars.color = RED;
 	
-	planets.push_back(moon);
-	planets.push_back(earth);
-	planets.push_back(sun);
+	Planet jupiter;
+	jupiter.pos = Vector2(-5.2f * astroUnit, 0.0f);
+	jupiter.mass = 1.89813e27;
+	jupiter.vel = Vector2(0.0f, 13100.0f);
+	jupiter.radius = 16.0f;
+	jupiter.color = BEIGE;
+	
+	Planet saturn;
+	saturn.pos = Vector2(-9.58f * astroUnit, 0.0f);
+	saturn.mass = 5.683e26f;
+	saturn.vel = Vector2(0.0f, 9700.0f);
+	saturn.radius = 12.0f;
+	saturn.color = YELLOW;
+	
+	Planet uranus;
+	uranus.pos = Vector2(-19.22f * astroUnit, 0.0f);
+	uranus.mass = 8.681e25f;
+	uranus.vel = Vector2(0.0f, 6800.0f);
+	uranus.radius = 11.0f;
+	uranus.color = SKYBLUE;
+	
+	Planet neptune;
+	neptune.pos = Vector2(-30.07 * astroUnit, 0.0f);
+	neptune.mass = 1.024e26f;
+	neptune.vel = Vector2(0.0f, 5400.0f);
+	neptune.radius = 9.0f;
+	neptune.color = DARKBLUE;
+
+	planets[Sun] = sun;
+	planets[Mercury] = mercury;
+	planets[Venus] = venus;
+	planets[Earth] = earth;
+	planets[Mars] = mars;
+	planets[Jupiter] = jupiter;
+	planets[Saturn] = saturn;
+	planets[Uranus] = uranus;
+	planets[Neptune] = neptune;
 }
 
 void Update(float delta) 
@@ -44,7 +93,7 @@ void Update(float delta)
 		}
 	}
 	
-	float panSpeed = (float)(astroUnit * delta);
+	float panSpeed = (float)(astroUnit * delta / camera.zoom);
 	if (IsKeyDown(KEY_LEFT))  camera.center.x -= panSpeed;
 	if (IsKeyDown(KEY_RIGHT)) camera.center.x += panSpeed;
 	if (IsKeyDown(KEY_UP))    camera.center.y -= panSpeed;
@@ -56,7 +105,7 @@ void Update(float delta)
 	
 	if (followEarth)
 	{
-		camera.center = planets[1].pos;
+		camera.center = planets[Earth].pos;
 	}
 	
 	IntegrateForces(delta * 86400.0f * 30.0f);
@@ -64,7 +113,7 @@ void Update(float delta)
 
 void IntegrateForces(float delta)
 {
-	for (int i = 0; i < planets.size(); i++) 
+	for (int i = 0; i < std::size(planets); i++) 
 	{
 		planets[i].vel += planets[i].accel * delta;
 		planets[i].pos += planets[i].vel * delta;

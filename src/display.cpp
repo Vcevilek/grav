@@ -20,10 +20,10 @@ static Vector2 WorldToScreen(Vector2 worldPos)
 
 static int CalcSegments(float screenRadius)
 {
-    if (screenRadius < 1.0f) return 6;
-    float angle = acosf(1.0f - 1.0f / screenRadius);
-    int segments = (int)(PI / angle) + 1;
-    return segments < 6 ? 6 : segments;
+	if (screenRadius < 1.0f) return 6;
+	float angle = acosf(1.0f - 1.0f / screenRadius);
+	int segments = (int)(PI / angle) + 1;
+	return segments < 6 ? 6 : segments;
 }
 
 void Draw() 
@@ -32,16 +32,22 @@ void Draw()
 	BeginDrawing();
 	
 	ClearBackground(BLACK);
+	DrawFPS(0, 0);
 	
 	float orbitRadiusScreen = 300.0f * camera.zoom;
 	int segments = CalcSegments(orbitRadiusScreen);
 	
 	//DrawRing(WorldToScreen(Vector2Zero()), 299.5f * camera.zoom, 300.5f * camera.zoom, 0, 360, segments, WHITE);
-	DrawCircleLinesV(WorldToScreen(Vector2Zero()), 300 * camera.zoom, WHITE);
-	
-	for (int i = 0; i < planets.size(); i++) 
+	float orbits[] = {0.39f, 0.72f, 1.0f, 1.524f, 5.2f, 9.58f, 19.22f, 30.07f};
+	for (float orbit : orbits)
 	{
-		DrawCircleV(WorldToScreen(planets[i].pos), planets[i].radius, planets[i].color);
+		DrawCircleLinesV(WorldToScreen(Vector2Zero()), orbit * 300.0f * camera.zoom, WHITE);
+	}
+	
+	for (int i = 0; i < std::size(planets); i++) 
+	{
+		DrawCircleV(WorldToScreen(planets[i].pos), planets[i].radius * camera.zoom, planets[i].color);
+		//else DrawCircleV(WorldToScreen(planets[i].pos), planets[i].radius, planets[i].color);
 	}
 	
 	EndDrawing();
