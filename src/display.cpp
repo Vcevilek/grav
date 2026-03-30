@@ -1,6 +1,12 @@
 #include <raylib.h>
 #include "data.h"
 
+void InitDisplay()
+{
+	InitWindow(800, 600, "Gravity");
+	SetWindowMonitor(0);
+}
+
 void Draw() 
 {
 	float aspect = (float)GetScreenWidth() / (float)GetScreenHeight();

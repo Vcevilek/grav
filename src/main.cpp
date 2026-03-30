@@ -4,9 +4,7 @@
 
 int main() 
 {
-	InitWindow(800, 600, "Gravity");
-	SetWindowMonitor(0);
-	
+	InitDisplay();	
 	Start();
 	
 	while(!WindowShouldClose()) 
