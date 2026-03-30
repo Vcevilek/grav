@@ -5,6 +5,7 @@
 #include "simulation.h"
 
 std::vector<Planet> planets;
+bool followEarth = false;
 
 void Start() 
 {
@@ -20,8 +21,16 @@ void Start()
 	earth.vel  = Vector2(0.0f, 29783.0f);
 	earth.color = GREEN;
 	
-	planets.push_back(sun);
+	Planet moon;
+	moon.pos = Vector2(1.00257 * astroUnit, 0.0f);
+	moon.mass = 7.342e22f;
+	moon.vel = Vector2(0.0f, 29783.0f + 1022.0f);
+	moon.radius = 4.0f;
+	moon.color = GRAY;
+	
+	planets.push_back(moon);
 	planets.push_back(earth);
+	planets.push_back(sun);
 }
 
 void Update(float delta) 
@@ -33,6 +42,21 @@ void Update(float delta)
 		{
 			bodyA.accel += GetGravity(bodyA, bodyB) / bodyA.mass;
 		}
+	}
+	
+	float panSpeed = (float)(astroUnit * delta);
+	if (IsKeyDown(KEY_LEFT))  camera.center.x -= panSpeed;
+	if (IsKeyDown(KEY_RIGHT)) camera.center.x += panSpeed;
+	if (IsKeyDown(KEY_UP))    camera.center.y -= panSpeed;
+	if (IsKeyDown(KEY_DOWN))  camera.center.y += panSpeed;
+
+	if (IsKeyDown(KEY_EQUAL)) camera.zoom *= 1.0002f;
+	if (IsKeyDown(KEY_MINUS)) camera.zoom *= 0.9998f;
+	if (IsKeyDown(KEY_ENTER)) followEarth = !followEarth;
+	
+	if (followEarth)
+	{
+		camera.center = planets[1].pos;
 	}
 	
 	IntegrateForces(delta * 86400.0f * 30.0f);

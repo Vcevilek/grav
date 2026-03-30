@@ -17,4 +17,11 @@ struct Planet
 	Color color = RED;
 };
 
+struct AstroCam 
+{
+	Vector2 center = Vector2Zero();
+	float zoom = 1.0f;
+};
+
 extern std::vector<Planet> planets;
+extern AstroCam camera;
